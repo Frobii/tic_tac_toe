@@ -47,6 +47,17 @@ class Player < Board
             @p2symbol = "O"
         end
     end
+
+    def play_round()
+        p @p1symbol
+        p Player.board
+        puts "Choose one of the remaining positions"
+        number = gets
+        p @@board.map! { |row| row.map { |x| x == (number.to_i - 1).to_s ? @p1symbol : x }}
+        p Player.board
+    end
+
+
 end
 
 end
@@ -75,4 +86,4 @@ player2.symbol_pick()
 p player2.p2symbol
 
 
-p Player.board
+player1.play_round()
