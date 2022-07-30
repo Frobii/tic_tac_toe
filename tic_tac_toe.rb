@@ -9,9 +9,11 @@ class Board
         @@board.each do |r|
             puts r.each { |p| p }.join(" ")
         end
+        puts "\n"
+        "Match three symbols in a row to win"
     end
 
-    
+
 end
 
 class Player < Board
@@ -54,13 +56,16 @@ class Player < Board
     
     def play_round(playerSymbol)
         p Player.board
-        puts "#{@name} choose one of the remaining positions"
+        puts "#{@name}, choose one of the remaining positions"
         number = gets
-        p @@board.map! { |row| row.map { |x| x == (number.to_i).to_s ? playerSymbol : x }}
-        p Player.board
+        if @@board.all? do |rows| rows.all? { |symbol| symbol != (number.to_i).to_s } end
+            puts "\n"
+            puts "Try again"
+            play_round(playerSymbol)
+        end
+        @@board.map! { |row| row.map { |x| x == (number.to_i).to_s ? playerSymbol : x }}
     end
 
-    
 end
 
 
@@ -76,13 +81,16 @@ player2 = Player.new(gets.chomp)
 
 player2.symbol_pick()
 
+puts "\n"
 
 i = 1
 until i == 10
     if i % 2 == 0
         player2.play_round(player2.p2symbol)
+        puts "\n"
     elsif i % 2 == 1
         player1.play_round(player1.p1symbol)
+        puts "\n"
     end
     i += 1
 end
