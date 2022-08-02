@@ -13,6 +13,21 @@ class Board
         "Match three symbols in a row to win"
     end
 
+    def winner_check(playerSymbol)
+        if @@board.any? do |row| row.all? { |symbol| symbol == playerSymbol } end
+            puts "You won!" # check all three horizontal wins
+        elsif @@board[0][0] == playerSymbol && @@board[1][0] == playerSymbol && @@board[2][0] == playerSymbol
+            puts "You won!" # check the first vertical win
+        elsif @@board[0][1] == playerSymbol && @@board[1][1] == playerSymbol && @@board[2][1] == playerSymbol
+            puts "You won!" # check the second vertical win
+        elsif @@board[0][2] == playerSymbol && @@board[1][2] == playerSymbol && @@board[2][2] == playerSymbol
+            puts "You won!" # check the third vertical win
+        elsif @@board[0][0] == playerSymbol && @@board[1][1] == playerSymbol && @@board[2][2] == playerSymbol
+            puts "You won!" # check "backslash" win
+        elsif @@board[0][2] == playerSymbol && @@board[1][1] == playerSymbol && @@board[2][0] == playerSymbol
+            puts "You won!" # check "forward slash" win
+        end
+    end
 
 end
 
@@ -64,6 +79,7 @@ class Player < Board
             play_round(playerSymbol)
         end
         @@board.map! { |row| row.map { |x| x == (number.to_i).to_s ? playerSymbol : x }}
+        winner_check(playerSymbol)
     end
 
 end
