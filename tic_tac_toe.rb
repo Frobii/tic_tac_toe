@@ -26,6 +26,10 @@ class Board
             puts "You won!" # check "backslash" win
         elsif @@board[0][2] == playerSymbol && @@board[1][1] == playerSymbol && @@board[2][0] == playerSymbol
             puts "You won!" # check "forward slash" win
+        elsif @@board.flatten.sort.join("").include? "OOOOO"
+            puts "it's a draw" # check for a draw where p1 picked "O"
+        elsif @@board.flatten.sort.join("").include? "XXXXX"
+            puts "it's a draw" # checkf or a draw where p1 picked "X"
         end
     end
 
@@ -39,6 +43,7 @@ class Player < Board
 
     @@player_count = 0
     @@choice_symbol = ""
+
 
     def initialize(name)
         @name = name
