@@ -12,6 +12,14 @@ class Board
         puts "\n"
         "Match three symbols in a row to win"
     end
+    
+    def reset_board()
+        @@board = [
+            ['1', '2', '3'],
+            ['4', '5', '6'],
+            ['7', '8', '9']
+        ]
+    end
 
     def winner_check(playerSymbol)
         if @@board.any? do |row| row.all? { |symbol| symbol == playerSymbol } end
@@ -29,7 +37,7 @@ class Board
         elsif @@board.flatten.sort.join("").include? "OOOOO"
             puts "it's a draw" # check for a draw where p1 picked "O"
         elsif @@board.flatten.sort.join("").include? "XXXXX"
-            puts "it's a draw" # checkf or a draw where p1 picked "X"
+            puts "it's a draw" # check for a draw where p1 picked "X"
         end
     end
 
