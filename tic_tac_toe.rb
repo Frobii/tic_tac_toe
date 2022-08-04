@@ -5,6 +5,12 @@ class Board
         ['7', '8', '9']
     ]
 
+    @@game_status = "going"
+
+    def self.game_status
+        @@game_status
+    end
+
     def self.board # displays the board as a grid when printed
         @@board.each do |r|
             puts r.each { |p| p }.join(" ")
@@ -21,23 +27,46 @@ class Board
         ]
     end
 
-    def winner_check(playerSymbol)
+    def winner_found(player)
+        puts "#{player} won!"
+        puts "Would you like to play again?"
+        playAgain = gets.chomp.upcase
+        if playAgain == "Y"
+            reset_board()
+        else
+            @@game_status = "over"
+        end
+    end
+
+    def draw()
+        p board()
+        puts "It's a draw!"
+        puts "Would you like to play again?"
+        playAgain = gets.chomp.upcase
+        if playAgain == "Y"
+            reset_board()
+        else
+            @@game_status = "over"
+        end
+    end
+
+    def winner_check(player, playerSymbol)
         if @@board.any? do |row| row.all? { |symbol| symbol == playerSymbol } end
-            puts "You won!" # check all three horizontal wins
+            winner_found(player) # check all three horizontal wins
         elsif @@board[0][0] == playerSymbol && @@board[1][0] == playerSymbol && @@board[2][0] == playerSymbol
-            puts "You won!" # check the first vertical win
+            winner_found(player) # check the first vertical win
         elsif @@board[0][1] == playerSymbol && @@board[1][1] == playerSymbol && @@board[2][1] == playerSymbol
-            puts "You won!" # check the second vertical win
+            winner_found(player) # check the second vertical win
         elsif @@board[0][2] == playerSymbol && @@board[1][2] == playerSymbol && @@board[2][2] == playerSymbol
-            puts "You won!" # check the third vertical win
+            winner_found(player) # check the third vertical win
         elsif @@board[0][0] == playerSymbol && @@board[1][1] == playerSymbol && @@board[2][2] == playerSymbol
-            puts "You won!" # check "backslash" win
+            winner_found(player) # check "backslash" win
         elsif @@board[0][2] == playerSymbol && @@board[1][1] == playerSymbol && @@board[2][0] == playerSymbol
-            puts "You won!" # check "forward slash" win
+            winner_found(player) # check "forward slash" win
         elsif @@board.flatten.sort.join("").include? "OOOOO"
-            puts "it's a draw" # check for a draw where p1 picked "O"
+            draw() # check for a draw where p1 picked "O"
         elsif @@board.flatten.sort.join("").include? "XXXXX"
-            puts "it's a draw" # check for a draw where p1 picked "X"
+            draw() # check for a draw where p1 picked "X"
         end
     end
 
@@ -82,17 +111,17 @@ class Player < Board
         end
     end
     
-    def play_round(playerSymbol)
+    def play_round(player, playerSymbol)
         p Player.board
         puts "#{@name}, choose one of the remaining positions"
         number = gets
         if @@board.all? do |rows| rows.all? { |symbol| symbol != (number.to_i).to_s } end
             puts "\n"
             puts "Try again"
-            play_round(playerSymbol)
+            play_round(player, playerSymbol)
         end
         @@board.map! { |row| row.map { |x| x == (number.to_i).to_s ? playerSymbol : x }}
-        winner_check(playerSymbol)
+        winner_check(player, playerSymbol)
     end
 
 end
@@ -113,12 +142,12 @@ player2.symbol_pick()
 puts "\n"
 
 i = 1
-until i == 10
-    if i % 2 == 0
-        player2.play_round(player2.p2symbol)
+until Board.game_status == "over"
+    if i % 2 == 0 # use modulo to swap between turns 
+        player2.play_round(player2.name, player2.p2symbol)
         puts "\n"
     elsif i % 2 == 1
-        player1.play_round(player1.p1symbol)
+        player1.play_round(player1.name, player1.p1symbol)
         puts "\n"
     end
     i += 1
