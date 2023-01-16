@@ -1,6 +1,6 @@
 require_relative "../lib/tic_tac_toe.rb"
 
-describe TicTacToe do
+describe "#winner" do
     let(:game) { TicTacToe.new }
   
     context "when X wins" do
@@ -31,6 +31,22 @@ describe TicTacToe do
       it "returns nil" do
         expect(game.winner).to be_nil
       end
+    end
+
+end
+
+describe "#make_move" do
+    let(:game) { TicTacToe.new }
+    
+    context "when a valid move is made" do
+        before do
+            allow(game).to receive(:gets).and_return("0 2")
+            game.make_move(:x)
+        end
+        
+        it "updates the board with the player's symbol" do
+            expect(game.board[0][2]). to eq :x
+        end
     end
 
 end
