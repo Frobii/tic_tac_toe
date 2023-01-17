@@ -53,11 +53,20 @@ describe TicTacToe do
 
   context "when an invalid move is made" do
     
-    it "prints an error message to std out" do
+    it "prints the correct error message to std out" do
       allow(invalid_game).to receive(:gets).and_return("4 5\n", "1 2\n")
       expect { invalid_game.make_move(:x) }.to output(/Invalid input. Please enter a number between 0 and 2 for both row and column./).to_stdout
     end 
     
-  end 
+  end
+
+  context "when no input is made at all" do
+
+    it "prints the correct error message to std out" do
+      allow(invalid_game).to receive(:gets).and_return("\n", "0 1\n")
+      expect { invalid_game.make_move(:x)}.to output(/Invalid input. Please check your input and try again./).to_stdout
+    end
+
+  end
 
 end
