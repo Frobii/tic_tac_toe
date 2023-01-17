@@ -35,18 +35,29 @@ describe "#winner" do
 
 end
 
-describe "#make_move" do
-    let(:game) { TicTacToe.new }
+describe TicTacToe do
+  subject(:game) { TicTacToe.new }
     
-    context "when a valid move is made" do
-        before do
-            allow(game).to receive(:gets).and_return("0 2")
-            game.make_move(:x)
-        end
-        
-        it "updates the board with the player's symbol" do
-            expect(game.board[0][2]). to eq :x
-        end
+  context "when a valid move is made" do
+    before do
+      allow(game).to receive(:gets).and_return("0 2")
+      game.make_move(:x)
     end
+    
+    it "updates the board with the player's symbol" do
+      expect(game.board[0][2]).to eq :x
+    end
+  end
+
+  subject(:invalid_game) { TicTacToe.new }
+
+  context "when an invalid move is made" do
+    
+    it "prints an error message to std out" do
+      allow(invalid_game).to receive(:gets).and_return("4 5\n", "1 2\n")
+      expect { invalid_game.make_move(:x) }.to output(/Invalid input. Please enter a number between 0 and 2 for both row and column./).to_stdout
+    end 
+    
+  end 
 
 end

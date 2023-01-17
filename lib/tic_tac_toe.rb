@@ -30,8 +30,8 @@ class TicTacToe
   def make_move(player)
     loop do
       puts "\n"
-      puts "#{player}, please enter the row and column (e.g. '1 2') for your move:"
-      row, col = gets.split.map(&:to_i) rescue [nil,nil]
+      puts "#{player}, please enter the row and column (e.g. '1 2') for your move: \n"
+      row, col = gets.split.map(&:to_i)
       puts "\n"
       if row.nil? || col.nil?
         puts "Invalid input. Please check your input and try again."
@@ -44,7 +44,7 @@ class TicTacToe
         puts "That spot is already taken! Please try again."
       end
     end
-end
+  end
 
   def game_over?
     winner || board_full?
@@ -71,5 +71,5 @@ end
   end
 end
 
-game = TicTacToe.new
-game.play
+# game = TicTacToe.new
+# game.play
